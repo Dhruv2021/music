@@ -25,6 +25,9 @@ class MusicSharingClient:
         self.chat_window = None  # Reference to the chat window
         self.file_name_label = None
         self.send_button = None
+        self.play_button = None
+        self.stop_button = None
+        self.download_button = None
 
         self.name_window.mainloop()
 
@@ -78,6 +81,25 @@ class MusicSharingClient:
         self.send_file_button = tk.Button(self.file_frame, text="Send File", command=self.send_file, state=tk.DISABLED)
         self.send_file_button.grid(row=0, column=2)
 
+        # Play, Stop, and Download Buttons
+        self.play_button = tk.Button(self.file_frame, text="Play", command=self.play_file, state=tk.DISABLED)
+        self.play_button.grid(row=1, column=0, pady=5)
+
+        self.stop_button = tk.Button(self.file_frame, text="Stop", command=self.stop_file, state=tk.DISABLED)
+        self.stop_button.grid(row=1, column=1, pady=5)
+
+        self.download_button = tk.Button(self.file_frame, text="Download", command=self.download_file, state=tk.DISABLED)
+        self.download_button.grid(row=1, column=2, pady=5)
+
+    def play_file(self):
+        print("Play file")
+
+    def stop_file(self):
+        print("Stop file")
+
+    def download_file(self):
+        print("Download file")
+
     def send_message(self, event=None):
         if not self.connected:
             return
@@ -95,6 +117,9 @@ class MusicSharingClient:
             self.file_name_label.config(text=f"Attached: {self.file_name}")
             self.send_button.config(state=tk.DISABLED)
             self.send_file_button.config(state=tk.NORMAL)
+            self.play_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.NORMAL)
+            self.download_button.config(state=tk.NORMAL)
 
     def send_file(self):
         if not self.connected:
@@ -120,13 +145,9 @@ class MusicSharingClient:
                     self.file_name_label.config(text=f"Download File: {file_name}")
                 else:
                     print(data)
-            except ConnectionResetError:
-                print("Connection reset by the server.")
-                break
             except Exception as e:
                 print(f"Error receiving message: {e}")
                 break
-
 
 if __name__ == "__main__":
     client = MusicSharingClient()
